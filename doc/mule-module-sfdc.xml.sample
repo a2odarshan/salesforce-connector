@@ -91,7 +91,7 @@
 </sfdc:upsert-bulk>
 <!-- END_INCLUDE(sfdc:upsert-bulk) -->
 <!-- BEGIN_INCLUDE(sfdc:batch-info) -->
-<sfdc:batch-info batchId="ID" />
+<sfdc:batch-info batchInfo-ref="[map-payload:batchInfo]" />
 <!-- END_INCLUDE(sfdc:batch-info) -->
 <!-- BEGIN_INCLUDE(sfdc:batch-result) -->
 <sfdc:batch-result batchId="ID" />
@@ -140,6 +140,9 @@
     </sfdc:objects>
 </sfdc:update>
 <!-- END_INCLUDE(sfdc:update) -->
+<!-- BEGIN_INCLUDE(sfdc:update-single) -->
+<sfdc:update-single type="Account" object-ref="#[payload]"/>
+<!-- END_INCLUDE(sfdc:update-single) -->
 <!-- BEGIN_INCLUDE(sfdc:update-bulk) -->
 <sfdc:query-single query="SELECT Id, Name FROM Account WHERE Name='CompanyName'"/>
 <!-- Update Name of the Account -->
