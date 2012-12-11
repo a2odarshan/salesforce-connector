@@ -7,6 +7,7 @@
 .idea
 bin
 *.iml
-target
+target/*
+!target/generated-sources
 .DS_Store
 credentials.properties
