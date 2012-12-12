@@ -37,7 +37,19 @@ import org.mule.api.store.ObjectStore;
 import org.mule.api.store.ObjectStoreException;
 import org.mule.api.store.ObjectStoreManager;
 import org.mule.common.metadata.ConnectorMetaDataEnabled;
+import org.mule.common.metadata.DefaultMapMetaDataModel;
+import org.mule.common.metadata.DefaultMetaData;
+import org.mule.common.metadata.DefaultMetaDataKey;
+import org.mule.common.metadata.DefaultMetaDataModel;
+import org.mule.common.metadata.DefaultPojoMetaDataModel;
+import org.mule.common.metadata.DefaultSimpleMetaDataModel;
 import org.mule.common.metadata.MetaData;
+import org.mule.common.metadata.MetaDataKey;
+import org.mule.common.metadata.MetaDataModel;
+import org.mule.common.metadata.PojoMetaDataModel;
+import org.mule.common.metadata.SimpleMetaDataModel;
+import org.mule.common.metadata.datatype.DataType;
+import org.mule.common.metadata.datatype.DataTypeFactory;
 
 import org.springframework.util.StringUtils;
 
@@ -49,8 +61,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public abstract class BaseSalesforceConnector implements MuleContextAware, ConnectorMetaDataEnabled {
     private static final Logger LOGGER = Logger.getLogger(BaseSalesforceConnector.class);
@@ -1463,33 +1477,182 @@ public abstract class BaseSalesforceConnector implements MuleContextAware, Conne
     }
 
     @Override
-    public List<MetaData> getMetaData() {
-        return null;
+    public List<MetaDataKey> getMetaDataKeys() {
+        long start = System.currentTimeMillis();
+        
+        List<MetaDataKey> keys = new ArrayList<MetaDataKey>();
+        DescribeGlobalResult describeGlobal = null;
+        try
+        {
+            describeGlobal = describeGlobal();
+        }
+        catch (Exception e)
+        {
+            //TODO: handle exception
+            e.printStackTrace();
+        }
+        if (describeGlobal != null)
+        {
+            DescribeGlobalSObjectResult[] sobjects = describeGlobal.getSobjects();
+            for (DescribeGlobalSObjectResult sobject : sobjects) {
+                keys.add(new DefaultMetaDataKey(sobject.getName(), sobject.getLabel()));
+            }
+        }
+        
+        //TODO: remove sytem out
+        long stop = System.currentTimeMillis();
+        System.out.println("Time to get keys: " + Long.toString(stop-start) + "ms");
+        
+        return keys;
     }
+    
+    @Override
+    public MetaData getMetaData(MetaDataKey key)
+    {
+        DescribeSObjectResult describeSObject = null;
+        try
+        {
+            describeSObject = describeSObject(key.getId());
+        }
+        catch (Exception e)
+        {
+            //TODO: handle exception
+            e.printStackTrace();
+        }
+        
+        MetaData metaData = null;
+        if (describeSObject != null)
+        {
+            Field[] fields = describeSObject.getFields();
+            Map<String, SimpleMetaDataModel> map = new HashMap<String, SimpleMetaDataModel>(fields.length);
+            for (Field f : fields)
+            {
+                SimpleMetaDataModel fieldModel = getModelForField(f);
+                map.put(f.getName(), fieldModel);
+            }
+            
+            MetaDataModel stringMdm = new DefaultMetaDataModel(DataType.STRING);
+            MetaDataModel model = new DefaultMapMetaDataModel<String>(stringMdm, map);
+            metaData = new DefaultMetaData(model);
+        }
+        return metaData;
+    }
+    
+    private static final Set<String> parentNames = Collections.singleton("sObject");
+    private SimpleMetaDataModel getModelForField(Field f)
+    {
+        DataType dataType = getDataType(f.getType());
+        String name = f.getName();
+        SimpleMetaDataModel model = new DefaultSimpleMetaDataModel(dataType, name, parentNames);
+        return model;
+    }
+    
+    private DataType getDataType(FieldType fieldType)
+    {
+        DataType dt = DataType.POJO;
+        switch (fieldType) {
+            case _boolean:
+                dt = DataType.BOOLEAN;
+                break;
+            case _double:
+                dt = DataType.NUMBER;
+                break;
+            case _int:
+                dt = DataType.NUMBER;
+                break;
+            case anyType:
+                dt = DataType.POJO;
+                break;
+            case base64:
+                dt = DataType.STRING;
+                break;
+            case combobox:
+                dt = DataType.ENUM;
+                break;
+            case currency:
+                dt = DataType.STRING;
+                break;
+            case datacategorygroupreference:
+                dt = DataType.STRING;
+                break;
+            case date:
+                dt = DataType.DATE_TIME;
+                break;
+            case datetime:
+                dt = DataType.DATE_TIME;
+                break;
+            case email:
+                dt = DataType.STRING;
+                break;
+            case encryptedstring:
+                dt = DataType.STRING;
+                break;
+            case id:
+                dt = DataType.STRING;
+                break;
+            case multipicklist:
+                dt = DataType.ENUM;
+                break;
+            case percent:
+                dt = DataType.STRING;
+                break;
+            case phone:
+                dt = DataType.STRING;
+                break;
+            case picklist:
+                dt = DataType.ENUM;
+                break;
+            case reference:
+                dt = DataType.STRING;
+                break;
+            case string:
+                dt = DataType.STRING;
+                break;
+            case textarea:
+                dt = DataType.STRING;
+                break;
+            case time:
+                dt = DataType.DATE_TIME;
+                break;
+            case url:
+                dt = DataType.STRING;
+                break;
+            default:
+                dt = DataType.STRING;    
+        }
+        return dt;
+    }
+    
     public String getMetaDataString() {
-        List<MetaData> metaData = new ArrayList<MetaData>();
         StringBuilder sb = new StringBuilder();
         try
         {
             DescribeGlobalResult describeGlobal = describeGlobal();
             DescribeGlobalSObjectResult[] sobjects = describeGlobal.getSobjects();
             sb.append("NUMBER OF OBJECTS: " + sobjects.length);
-            for (DescribeGlobalSObjectResult sobject : sobjects) {
-                String keyPrefix = sobject.getKeyPrefix();
-                String label = sobject.getLabel();
-                String name = sobject.getName();
-                sb.append("keyPrefix: " + keyPrefix + " name: " + name + " label: " + label);
-                DescribeSObjectResult describeSObject = describeSObject(name);
-                sb.append("  SOBJECT: " + describeSObject.toString());
-                Field[] fields = describeSObject.getFields();
-                for (Field f : fields) {
-                    sb.append("    FIELD: " + f.toString());
-                    sb.append("      TYPE: " + f.getType().toString());
-                    sb.append("      NAME: " + f.getName());
-                    sb.append("      LABEL: " + f.getLabel());
-                }
-                sb.append("-----------------------------------------------------");
-            }
+            sb.append(System.getProperty("line.separator"));
+            sb.append(System.getProperty("line.separator"));
+//            for (DescribeGlobalSObjectResult sobject : sobjects) {
+//                String name = sobject.getName();
+//                long start = System.currentTimeMillis();
+//                DescribeSObjectResult describeSObject = describeSObject(name);
+//                long stop = System.currentTimeMillis();
+//                System.out.println("Time to get an SObject: " + Long.toString(stop-start) + "ms");
+////                sb.append("  SOBJECT: " + describeSObject.toString());
+//                sb.append("  SOBJECT: name: " + describeSObject.getName());
+//                sb.append(" label: " + describeSObject.getLabel());
+//                sb.append(" keyPrefix: " + describeSObject.getKeyPrefix());
+//                sb.append(System.getProperty("line.separator"));
+//                Field[] fields = describeSObject.getFields();
+//                for (Field f : fields) {
+////                    sb.append("    FIELD: " + f.toString());
+//                    sb.append("    FIELD: name: " + f.getName());
+//                    sb.append(" type: " + f.getType().toString());
+//                    sb.append(" label: " + f.getLabel());
+//                    sb.append(System.getProperty("line.separator"));
+//                }
+//                sb.append("-----------------------------------------------------");
+//            }
         }
         catch (Exception e)
         {
