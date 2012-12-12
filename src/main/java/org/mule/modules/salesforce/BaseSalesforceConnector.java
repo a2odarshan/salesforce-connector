@@ -36,6 +36,9 @@ import org.mule.api.registry.Registry;
 import org.mule.api.store.ObjectStore;
 import org.mule.api.store.ObjectStoreException;
 import org.mule.api.store.ObjectStoreManager;
+import org.mule.common.metadata.ConnectorMetaDataEnabled;
+import org.mule.common.metadata.MetaData;
+
 import org.springframework.util.StringUtils;
 
 import java.io.ByteArrayInputStream;
@@ -49,7 +52,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public abstract class BaseSalesforceConnector implements MuleContextAware {
+public abstract class BaseSalesforceConnector implements MuleContextAware, ConnectorMetaDataEnabled {
     private static final Logger LOGGER = Logger.getLogger(BaseSalesforceConnector.class);
 
     /**
@@ -1457,5 +1460,41 @@ public abstract class BaseSalesforceConnector implements MuleContextAware {
     public void setMuleContext(MuleContext context) {
         setObjectStoreManager(((ObjectStoreManager) context.getRegistry().get(MuleProperties.OBJECT_STORE_MANAGER)));
         setRegistry((Registry) context.getRegistry());
+    }
+
+    @Override
+    public List<MetaData> getMetaData() {
+        return null;
+    }
+    public String getMetaDataString() {
+        List<MetaData> metaData = new ArrayList<MetaData>();
+        StringBuilder sb = new StringBuilder();
+        try
+        {
+            DescribeGlobalResult describeGlobal = describeGlobal();
+            DescribeGlobalSObjectResult[] sobjects = describeGlobal.getSobjects();
+            sb.append("NUMBER OF OBJECTS: " + sobjects.length);
+            for (DescribeGlobalSObjectResult sobject : sobjects) {
+                String keyPrefix = sobject.getKeyPrefix();
+                String label = sobject.getLabel();
+                String name = sobject.getName();
+                sb.append("keyPrefix: " + keyPrefix + " name: " + name + " label: " + label);
+                DescribeSObjectResult describeSObject = describeSObject(name);
+                sb.append("  SOBJECT: " + describeSObject.toString());
+                Field[] fields = describeSObject.getFields();
+                for (Field f : fields) {
+                    sb.append("    FIELD: " + f.toString());
+                    sb.append("      TYPE: " + f.getType().toString());
+                    sb.append("      NAME: " + f.getName());
+                    sb.append("      LABEL: " + f.getLabel());
+                }
+                sb.append("-----------------------------------------------------");
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return sb.toString();
     }
 }
