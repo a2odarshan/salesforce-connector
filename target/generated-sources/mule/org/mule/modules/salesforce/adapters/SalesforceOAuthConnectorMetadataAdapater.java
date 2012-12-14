@@ -10,7 +10,7 @@ import org.mule.modules.salesforce.SalesforceOAuthConnector;
  * A <code>SalesforceOAuthConnectorMetadataAdapater</code> is a wrapper around {@link SalesforceOAuthConnector } that adds support for querying metadata about the extension.
  * 
  */
-@Generated(value = "Mule DevKit Version 3.4-SNAPSHOT", date = "2012-12-11T04:22:03-03:00", comments = "Build master.1429.6fd1145")
+@Generated(value = "Mule DevKit Version 3.4-SNAPSHOT", date = "2012-12-13T03:33:54-03:00", comments = "Build connectorMetaDataEnabled.1437.f6cd6a5")
 public class SalesforceOAuthConnectorMetadataAdapater
     extends SalesforceOAuthConnectorCapabilitiesAdapter
     implements MetadataAware
@@ -19,7 +19,7 @@ public class SalesforceOAuthConnectorMetadataAdapater
     private final static String MODULE_NAME = "Salesforce (OAuth)";
     private final static String MODULE_VERSION = "5.1.4-SNAPSHOT";
     private final static String DEVKIT_VERSION = "3.4-SNAPSHOT";
-    private final static String DEVKIT_BUILD = "master.1429.6fd1145";
+    private final static String DEVKIT_BUILD = "connectorMetaDataEnabled.1437.f6cd6a5";
 
     public String getModuleName() {
         return MODULE_NAME;

@@ -11,7 +11,7 @@ import org.mule.api.lifecycle.Stoppable;
 import org.mule.api.store.ObjectStoreException;
 import org.mule.modules.salesforce.adapters.SalesforceOAuthConnectorOAuth2Adapter;
 
-@Generated(value = "Mule DevKit Version 3.4-SNAPSHOT", date = "2012-12-11T04:22:03-03:00", comments = "Build master.1429.6fd1145")
+@Generated(value = "Mule DevKit Version 3.4-SNAPSHOT", date = "2012-12-13T03:33:54-03:00", comments = "Build connectorMetaDataEnabled.1437.f6cd6a5")
 public class SalesforceOAuthConnectorOAuthClientFactory implements KeyedPoolableObjectFactory
 {
 
@@ -94,10 +94,16 @@ public class SalesforceOAuthConnectorOAuthClientFactory implements KeyedPoolable
                 return false;
             }
             state = ((SalesforceOAuthConnectorOAuthState) oauthManager.getAccessTokenObjectStore().retrieve(((String) key)));
-            if (!((SalesforceOAuthConnectorOAuth2Adapter) obj).getRefreshToken().equals(state.getRefreshToken())) {
+            if (((SalesforceOAuthConnectorOAuth2Adapter) obj).getAccessToken() == null) {
                 return false;
             }
             if (!((SalesforceOAuthConnectorOAuth2Adapter) obj).getAccessToken().equals(state.getAccessToken())) {
+                return false;
+            }
+            if ((((SalesforceOAuthConnectorOAuth2Adapter) obj).getRefreshToken() == null)&&(state.getRefreshToken()!= null)) {
+                return false;
+            }
+            if ((((SalesforceOAuthConnectorOAuth2Adapter) obj).getRefreshToken()!= null)&&(!((SalesforceOAuthConnectorOAuth2Adapter) obj).getRefreshToken().equals(state.getRefreshToken()))) {
                 return false;
             }
         } catch (ObjectStoreException _x) {

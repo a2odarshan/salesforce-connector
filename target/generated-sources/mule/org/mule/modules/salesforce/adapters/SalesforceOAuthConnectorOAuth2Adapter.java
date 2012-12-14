@@ -37,7 +37,7 @@ import org.mule.util.IOUtils;
  * A {@code SalesforceOAuthConnectorOAuth2Adapter} is a wrapper around {@link SalesforceOAuthConnector } that adds OAuth capabilites to the pojo.
  * 
  */
-@Generated(value = "Mule DevKit Version 3.4-SNAPSHOT", date = "2012-12-11T04:22:03-03:00", comments = "Build master.1429.6fd1145")
+@Generated(value = "Mule DevKit Version 3.4-SNAPSHOT", date = "2012-12-13T03:33:54-03:00", comments = "Build connectorMetaDataEnabled.1437.f6cd6a5")
 public class SalesforceOAuthConnectorOAuth2Adapter
     extends SalesforceOAuthConnectorProcessAdapter
     implements MuleContextAware, Initialisable, Startable, Stoppable, OAuth2Adapter

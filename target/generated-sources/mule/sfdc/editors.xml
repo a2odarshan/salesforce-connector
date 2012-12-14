@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <namespace xmlns="http://www.mulesoft.org/schema/mule/tooling.attributes" xmlns:mule="http://www.mulesoft.org/schema/mule/core" prefix="sfdc" url="http://www.mulesoft.org/schema/mule/sfdc">
-  <global-cloud-connector connectivityTesting="on" extends="http://www.mulesoft.org/schema/mule/sfdc/abstractSfdcConnectorGeneric" abstract="true" image="" localId="parentConfig" icon="" description="" caption="Salesforce"></global-cloud-connector>
+  <global-cloud-connector metaDataEnabled="enabled" connectivityTesting="on" extends="http://www.mulesoft.org/schema/mule/sfdc/abstractSfdcConnectorGeneric" abstract="true" image="" localId="parentConfig" icon="" description="" caption="Salesforce"></global-cloud-connector>
   <nested abstract="true" localId="connection-pooling-profile" description="" caption="">
     <label description="" caption="Define connection pool configuration" name="poolingProfileLabel"></label>
     <integer step="0" min="0" defaultValue="5" fillLine="true" description="Controls the maximum number of connections that can be borrowed from the pool at one time. When set to a negative value, there is no limit to the number of connections that may be active at one time. When maxActive is exceeded, the pool is said to be exhausted." caption="Max active" name="maxActive"></integer>
@@ -56,7 +56,7 @@ quick and easy.
       </group>
     </attribute-category>
   </cloud-connector-message-source>
-  <global-cloud-connector connectivityTesting="on" extends="http://www.mulesoft.org/schema/mule/sfdc/parentConfig" abstract="false" image="icons/large/sfdc-connector-48x32.png" localId="config" icon="icons/small/sfdc-connector-24x16.png" description="Global Salesforce configuration information." caption="Salesforce">
+  <global-cloud-connector metaDataEnabled="enabled" connectivityTesting="on" extends="http://www.mulesoft.org/schema/mule/sfdc/parentConfig" abstract="false" image="icons/large/sfdc-connector-48x32.png" localId="config" icon="icons/small/sfdc-connector-24x16.png" description="Global Salesforce configuration information." caption="Salesforce">
     <attribute-category description="Sfdc configuration properties." caption="General">
       <group caption="Generic" id="sfdcGenericProperties">
         <name required="true" description="Give a name to this configuration so it can be later referenced by config-ref." caption="Name" name="name"></name>
@@ -93,7 +93,7 @@ Default is false: no change in behavior. If a string or textarea value is too la
       </group>
     </attribute-category>
   </global-cloud-connector>
-  <global-cloud-connector connectivityTesting="disabled" extends="http://www.mulesoft.org/schema/mule/sfdc/parentConfig" abstract="false" image="icons/large/sfdc-connector-48x32.png" localId="config-with-oauth" icon="icons/small/sfdc-connector-24x16.png" description="Global Salesforce (OAuth) configuration information." caption="Salesforce (OAuth)">
+  <global-cloud-connector metaDataEnabled="disabled" connectivityTesting="disabled" extends="http://www.mulesoft.org/schema/mule/sfdc/parentConfig" abstract="false" image="icons/large/sfdc-connector-48x32.png" localId="config-with-oauth" icon="icons/small/sfdc-connector-24x16.png" description="Global Salesforce (OAuth) configuration information." caption="Salesforce (OAuth)">
     <attribute-category description="Sfdc configuration properties." caption="General">
       <group caption="Generic" id="sfdcGenericProperties">
         <name required="true" description="Give a name to this configuration so it can be later referenced by config-ref." caption="Name" name="name"></name>

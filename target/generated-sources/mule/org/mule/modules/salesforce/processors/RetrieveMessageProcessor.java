@@ -9,6 +9,7 @@ import org.mule.api.MessagingException;
 import org.mule.api.MuleContext;
 import org.mule.api.MuleEvent;
 import org.mule.api.MuleException;
+import org.mule.api.config.ConfigurationException;
 import org.mule.api.construct.FlowConstruct;
 import org.mule.api.lifecycle.Disposable;
 import org.mule.api.lifecycle.Initialisable;
@@ -19,18 +20,28 @@ import org.mule.api.process.ProcessAdapter;
 import org.mule.api.process.ProcessCallback;
 import org.mule.api.process.ProcessTemplate;
 import org.mule.api.processor.MessageProcessor;
+import org.mule.api.registry.RegistrationException;
+import org.mule.common.metadata.DefaultListMetaDataModel;
+import org.mule.common.metadata.DefaultMetaData;
+import org.mule.common.metadata.DefaultMetaDataKey;
+import org.mule.common.metadata.ListMetaDataModel;
+import org.mule.common.metadata.MetaData;
+import org.mule.common.metadata.MetaDataEnabled;
+import org.mule.common.metadata.MetaDataKey;
+import org.mule.common.metadata.MetaDataModel;
 import org.mule.config.i18n.CoreMessages;
 import org.mule.modules.salesforce.BaseSalesforceConnector;
+import org.mule.modules.salesforce.SalesforceConnector;
 
 
 /**
  * RetrieveMessageProcessor invokes the {@link org.mule.modules.salesforce.BaseSalesforceConnector#retrieve(java.lang.String, java.util.List, java.util.List)} method in {@link BaseSalesforceConnector }. For each argument there is a field in this processor to match it.  Before invoking the actual method the processor will evaluate and transform where possible to the expected argument type.
  * 
  */
-@Generated(value = "Mule DevKit Version 3.4-SNAPSHOT", date = "2012-12-11T04:22:03-03:00", comments = "Build master.1429.6fd1145")
+@Generated(value = "Mule DevKit Version 3.4-SNAPSHOT", date = "2012-12-13T03:33:54-03:00", comments = "Build connectorMetaDataEnabled.1437.f6cd6a5")
 public class RetrieveMessageProcessor
     extends AbstractMessageProcessor<Object>
-    implements Disposable, Initialisable, Startable, Stoppable, MessageProcessor
+    implements Disposable, Initialisable, Startable, Stoppable, MessageProcessor, MetaDataEnabled
 {
 
     protected Object type;
@@ -152,6 +163,45 @@ public class RetrieveMessageProcessor
         } catch (Exception e) {
             throw new MessagingException(CoreMessages.failedToInvoke("retrieve"), event, e);
         }
+    }
+
+    @Override
+    public MetaData getInputMetaData()
+    {
+        return null;
+    }
+
+//    @OutputMetaDataKey(type=org.mule.api.annotations.MetaDataKey.PARAMETER, values="type")
+//    @OutputMetaDataModelDescription(modelDescription="LIST(MODEL)")
+    @Override
+    public MetaData getOutputMetada(MetaData inputMetaData)
+    {
+        MetaDataKey metaDataKey = new DefaultMetaDataKey(type.toString(), null);
+        SalesforceConnector connector;
+        try
+        {
+            connector = (SalesforceConnector)findOrCreate(SalesforceConnector.class, true, null);
+            MetaData metaData = connector.getMetaData(metaDataKey);
+            ListMetaDataModel listMetaDataModel = new DefaultListMetaDataModel(metaData.getPayload());
+            return new DefaultMetaData(listMetaDataModel);
+        }
+        catch (ConfigurationException e)
+        {
+            e.printStackTrace();
+        }
+        catch (RegistrationException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IllegalAccessException e)
+        {
+            e.printStackTrace();
+        }
+        catch (InstantiationException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

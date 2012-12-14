@@ -18,7 +18,11 @@ import org.apache.log4j.Logger;
 import org.mule.api.MuleContext;
 import org.mule.api.annotations.Category;
 import org.mule.api.annotations.Configurable;
+import org.mule.api.annotations.InputMetaDataKey;
+import org.mule.api.annotations.InputMetaDataModelDescription;
 import org.mule.api.annotations.InvalidateConnectionOn;
+import org.mule.api.annotations.OutputMetaDataKey;
+import org.mule.api.annotations.OutputMetaDataModelDescription;
 import org.mule.api.annotations.Processor;
 import org.mule.api.annotations.Source;
 import org.mule.api.annotations.SourceThreadingModel;
@@ -372,6 +376,9 @@ public abstract class BaseSalesforceConnector implements MuleContextAware, Conne
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @OAuthInvalidateAccessTokenOn(exception = ConnectionException.class)
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
+    @InputMetaDataKey(type=org.mule.api.annotations.MetaDataKey.PARAMETER, values="type")
+    @InputMetaDataModelDescription(modelDescription="MODEL")
+    @OutputMetaDataModelDescription(modelDescription="POJO")
     public SaveResult createSingle(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                    @Placement(group = "sObject Field Mappings") @FriendlyName("sObject") @Optional @Default("#[payload]") Map<String, Object> object) throws Exception {
         SaveResult[] saveResults = getConnection().create(new SObject[]{toSObject(type, object)});
@@ -399,6 +406,9 @@ public abstract class BaseSalesforceConnector implements MuleContextAware, Conne
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @OAuthInvalidateAccessTokenOn(exception = ConnectionException.class)
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
+    @InputMetaDataKey(type=org.mule.api.annotations.MetaDataKey.PARAMETER, values="type")
+    @InputMetaDataModelDescription(modelDescription="LIST(MODEL)")
+    @OutputMetaDataModelDescription(modelDescription="LIST(POJO)")
     public List<SaveResult> update(@Placement(group = "Information") @FriendlyName("sObject Type") String type,
                                    @Placement(group = "Salesforce sObjects list") @FriendlyName("sObjects") @Optional @Default("#[payload]") List<Map<String, Object>> objects) throws Exception {
         return Arrays.asList(getConnection().update(toSObjectList(type, objects)));
@@ -635,6 +645,11 @@ public abstract class BaseSalesforceConnector implements MuleContextAware, Conne
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @OAuthInvalidateAccessTokenOn(exception = ConnectionException.class)
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
+//    @OutputMetaData(type="javaCall" method="getListMetaData" args="type")
+    @OutputMetaDataKey(type=org.mule.api.annotations.MetaDataKey.PARAMETER, values="type")
+    @OutputMetaDataModelDescription(modelDescription="LIST(MODEL)")
+//            model="List<MetaDataModel>"
+//            aggregation="single/collection/list/map" internalType="sObject")
     public List<Map<String, Object>> retrieve(@Placement(group = "Information", order = 1) @FriendlyName("sObject Type") String type,
                                               @Placement(group = "Ids to Retrieve") List<String> ids,
                                               @Placement(group = "Fields to Retrieve") List<String> fields) throws Exception {

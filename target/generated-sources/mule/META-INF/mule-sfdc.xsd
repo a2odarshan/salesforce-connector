@@ -3759,103 +3759,6 @@ Default is false: no change in behavior. If a string or textarea value is too la
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:simpleType name="ConcurrencyModeEnumType">
-    <xs:annotation>
-      <xs:documentation>ConcurrencyMode --</xs:documentation>
-    </xs:annotation>
-    <xs:union>
-      <xs:simpleType>
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="Parallel">
-            <xs:annotation>
-              <xs:documentation></xs:documentation>
-            </xs:annotation>
-          </xs:enumeration>
-          <xs:enumeration value="Serial">
-            <xs:annotation>
-              <xs:documentation></xs:documentation>
-            </xs:annotation>
-          </xs:enumeration>
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:simpleType>
-        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
-      </xs:simpleType>
-    </xs:union>
-  </xs:simpleType>
-  <xs:simpleType name="BatchStateEnumEnumType">
-    <xs:annotation>
-      <xs:documentation>Generated enum, please do not edit.</xs:documentation>
-    </xs:annotation>
-    <xs:union>
-      <xs:simpleType>
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="Queued">
-            <xs:annotation>
-              <xs:documentation>Enumeration  : Queued</xs:documentation>
-            </xs:annotation>
-          </xs:enumeration>
-          <xs:enumeration value="InProgress">
-            <xs:annotation>
-              <xs:documentation>Enumeration  : InProgress</xs:documentation>
-            </xs:annotation>
-          </xs:enumeration>
-          <xs:enumeration value="Completed">
-            <xs:annotation>
-              <xs:documentation>Enumeration  : Completed</xs:documentation>
-            </xs:annotation>
-          </xs:enumeration>
-          <xs:enumeration value="Failed">
-            <xs:annotation>
-              <xs:documentation>Enumeration  : Failed</xs:documentation>
-            </xs:annotation>
-          </xs:enumeration>
-          <xs:enumeration value="NotProcessed">
-            <xs:annotation>
-              <xs:documentation>Enumeration  : NotProcessed</xs:documentation>
-            </xs:annotation>
-          </xs:enumeration>
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:simpleType>
-        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
-      </xs:simpleType>
-    </xs:union>
-  </xs:simpleType>
-  <xs:simpleType name="ContentTypeEnumType">
-    <xs:annotation>
-      <xs:documentation>ContentType --</xs:documentation>
-    </xs:annotation>
-    <xs:union>
-      <xs:simpleType>
-        <xs:restriction base="xs:string">
-          <xs:enumeration value="XML">
-            <xs:annotation>
-              <xs:documentation></xs:documentation>
-            </xs:annotation>
-          </xs:enumeration>
-          <xs:enumeration value="CSV">
-            <xs:annotation>
-              <xs:documentation></xs:documentation>
-            </xs:annotation>
-          </xs:enumeration>
-          <xs:enumeration value="ZIP_XML">
-            <xs:annotation>
-              <xs:documentation></xs:documentation>
-            </xs:annotation>
-          </xs:enumeration>
-          <xs:enumeration value="ZIP_CSV">
-            <xs:annotation>
-              <xs:documentation></xs:documentation>
-            </xs:annotation>
-          </xs:enumeration>
-        </xs:restriction>
-      </xs:simpleType>
-      <xs:simpleType>
-        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
-      </xs:simpleType>
-    </xs:union>
-  </xs:simpleType>
   <xs:simpleType name="OperationEnumEnumType">
     <xs:annotation>
       <xs:documentation></xs:documentation>
@@ -3900,31 +3803,82 @@ Default is false: no change in behavior. If a string or textarea value is too la
       </xs:simpleType>
     </xs:union>
   </xs:simpleType>
-  <xs:simpleType name="JobStateEnumEnumType">
+  <xs:simpleType name="ConcurrencyModeEnumType">
     <xs:annotation>
-      <xs:documentation>Generated enum, please do not edit.</xs:documentation>
+      <xs:documentation>ConcurrencyMode --</xs:documentation>
     </xs:annotation>
     <xs:union>
       <xs:simpleType>
         <xs:restriction base="xs:string">
-          <xs:enumeration value="Open">
+          <xs:enumeration value="Parallel">
             <xs:annotation>
-              <xs:documentation>Enumeration  : Open</xs:documentation>
+              <xs:documentation></xs:documentation>
             </xs:annotation>
           </xs:enumeration>
-          <xs:enumeration value="Closed">
+          <xs:enumeration value="Serial">
             <xs:annotation>
-              <xs:documentation>Enumeration  : Closed</xs:documentation>
+              <xs:documentation></xs:documentation>
             </xs:annotation>
           </xs:enumeration>
-          <xs:enumeration value="Aborted">
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="ContentTypeEnumType">
+    <xs:annotation>
+      <xs:documentation>ContentType --</xs:documentation>
+    </xs:annotation>
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="XML">
             <xs:annotation>
-              <xs:documentation>Enumeration  : Aborted</xs:documentation>
+              <xs:documentation></xs:documentation>
             </xs:annotation>
           </xs:enumeration>
-          <xs:enumeration value="Failed">
+          <xs:enumeration value="CSV">
             <xs:annotation>
-              <xs:documentation>Enumeration  : Failed</xs:documentation>
+              <xs:documentation></xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="ZIP_XML">
+            <xs:annotation>
+              <xs:documentation></xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="ZIP_CSV">
+            <xs:annotation>
+              <xs:documentation></xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="SalesforceOAuthImmediateEnumType">
+    <xs:annotation>
+      <xs:documentation>Avoid interacting with the user.</xs:documentation>
+    </xs:annotation>
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="TRUE">
+            <xs:annotation>
+              <xs:documentation>Prompt the user for login and approval</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="FALSE">
+            <xs:annotation>
+              <xs:documentation>If the user is currently logged in and has previously approved the client_id, the approval step is skipped,
+and the browser is immediately redirected to the callback with an authorization code. If the user is not
+logged in or has not previously approved the client, the flow immediately terminates with
+the immediate_unsuccessful error code.</xs:documentation>
             </xs:annotation>
           </xs:enumeration>
         </xs:restriction>
@@ -3988,24 +3942,70 @@ It is valid to pass both values, separated by a space, to require the user to bo
       </xs:simpleType>
     </xs:union>
   </xs:simpleType>
-  <xs:simpleType name="SalesforceOAuthImmediateEnumType">
+  <xs:simpleType name="BatchStateEnumEnumType">
     <xs:annotation>
-      <xs:documentation>Avoid interacting with the user.</xs:documentation>
+      <xs:documentation>Generated enum, please do not edit.</xs:documentation>
     </xs:annotation>
     <xs:union>
       <xs:simpleType>
         <xs:restriction base="xs:string">
-          <xs:enumeration value="TRUE">
+          <xs:enumeration value="Queued">
             <xs:annotation>
-              <xs:documentation>Prompt the user for login and approval</xs:documentation>
+              <xs:documentation>Enumeration  : Queued</xs:documentation>
             </xs:annotation>
           </xs:enumeration>
-          <xs:enumeration value="FALSE">
+          <xs:enumeration value="InProgress">
             <xs:annotation>
-              <xs:documentation>If the user is currently logged in and has previously approved the client_id, the approval step is skipped,
-and the browser is immediately redirected to the callback with an authorization code. If the user is not
-logged in or has not previously approved the client, the flow immediately terminates with
-the immediate_unsuccessful error code.</xs:documentation>
+              <xs:documentation>Enumeration  : InProgress</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Completed">
+            <xs:annotation>
+              <xs:documentation>Enumeration  : Completed</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Failed">
+            <xs:annotation>
+              <xs:documentation>Enumeration  : Failed</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="NotProcessed">
+            <xs:annotation>
+              <xs:documentation>Enumeration  : NotProcessed</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction xmlns:mule="http://www.mulesoft.org/schema/mule/core" base="mule:propertyPlaceholderType"></xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="JobStateEnumEnumType">
+    <xs:annotation>
+      <xs:documentation>Generated enum, please do not edit.</xs:documentation>
+    </xs:annotation>
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="Open">
+            <xs:annotation>
+              <xs:documentation>Enumeration  : Open</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Closed">
+            <xs:annotation>
+              <xs:documentation>Enumeration  : Closed</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Aborted">
+            <xs:annotation>
+              <xs:documentation>Enumeration  : Aborted</xs:documentation>
+            </xs:annotation>
+          </xs:enumeration>
+          <xs:enumeration value="Failed">
+            <xs:annotation>
+              <xs:documentation>Enumeration  : Failed</xs:documentation>
             </xs:annotation>
           </xs:enumeration>
         </xs:restriction>

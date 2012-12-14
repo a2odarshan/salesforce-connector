@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><feature id="org.mule.tooling.ui.extension.sfdc" label="Mule Salesforce Connector Mule Studio Extension" provider-name="Mulesoft, Inc." version="5.1.4.201212111622"><license url="http://www.apache.org/licenses/LICENSE-2.0.html">Common Public Attribution License Version 1.0 (CPAL)
+<?xml version="1.0" encoding="UTF-8"?><feature id="org.mule.tooling.ui.extension.sfdc" label="Mule Salesforce Connector Mule Studio Extension" provider-name="Mulesoft, Inc." version="5.1.4.201212131533"><license url="http://www.apache.org/licenses/LICENSE-2.0.html">Common Public Attribution License Version 1.0 (CPAL)
 ====================================================
 
 
@@ -485,4 +485,4 @@ Covered Code. :
 Display of Attribution Information is required in Larger Works which are defined
 in the CPAL as a work which combines Covered Code or portions thereof with code
 not governed by the terms of the CPAL.
-</license><plugin download-size="0" id="org.mule.tooling.ui.contribution.sfdc" install-size="0" unpack="true" version="5.0.0.201212111622"/></feature>
+</license><plugin download-size="0" id="org.mule.tooling.ui.contribution.sfdc" install-size="0" unpack="true" version="5.0.0.201212131533"/></feature>

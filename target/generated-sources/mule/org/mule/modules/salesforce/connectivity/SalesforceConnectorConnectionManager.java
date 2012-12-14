@@ -1,6 +1,7 @@
 
 package org.mule.modules.salesforce.connectivity;
 
+import java.util.List;
 import javax.annotation.Generated;
 import org.apache.commons.pool.impl.GenericKeyedObjectPool;
 import org.mule.api.Capabilities;
@@ -21,6 +22,9 @@ import org.mule.api.store.ObjectStore;
 import org.mule.common.DefaultTestResult;
 import org.mule.common.TestResult;
 import org.mule.common.Testable;
+import org.mule.common.metadata.ConnectorMetaDataEnabled;
+import org.mule.common.metadata.MetaData;
+import org.mule.common.metadata.MetaDataKey;
 import org.mule.config.PoolingProfile;
 import org.mule.modules.salesforce.SalesforceConnector;
 import org.mule.modules.salesforce.adapters.SalesforceConnectorConnectionIdentifierAdapter;
@@ -30,8 +34,8 @@ import org.mule.modules.salesforce.adapters.SalesforceConnectorConnectionIdentif
  * A {@code SalesforceConnectorConnectionManager} is a wrapper around {@link SalesforceConnector } that adds connection management capabilities to the pojo.
  * 
  */
-@Generated(value = "Mule DevKit Version 3.4-SNAPSHOT", date = "2012-12-11T04:22:03-03:00", comments = "Build master.1429.6fd1145")
-public class SalesforceConnectorConnectionManager implements Capabilities, ConnectionManager<SalesforceConnectorConnectionKey, SalesforceConnectorConnectionIdentifierAdapter> , MetadataAware, MuleContextAware, Initialisable, ProcessAdapter<SalesforceConnectorConnectionIdentifierAdapter> , Testable
+@Generated(value = "Mule DevKit Version 3.4-SNAPSHOT", date = "2012-12-13T03:33:54-03:00", comments = "Build connectorMetaDataEnabled.1437.f6cd6a5")
+public class SalesforceConnectorConnectionManager implements Capabilities, ConnectionManager<SalesforceConnectorConnectionKey, SalesforceConnectorConnectionIdentifierAdapter> , MetadataAware, MuleContextAware, Initialisable, ProcessAdapter<SalesforceConnectorConnectionIdentifierAdapter> , Testable, ConnectorMetaDataEnabled
 {
 
     /**
@@ -91,7 +95,7 @@ public class SalesforceConnectorConnectionManager implements Capabilities, Conne
     private final static String MODULE_NAME = "Salesforce";
     private final static String MODULE_VERSION = "5.1.4-SNAPSHOT";
     private final static String DEVKIT_VERSION = "3.4-SNAPSHOT";
-    private final static String DEVKIT_BUILD = "master.1429.6fd1145";
+    private final static String DEVKIT_BUILD = "connectorMetaDataEnabled.1437.f6cd6a5";
 
     /**
      * Sets timeObjectStore
@@ -506,6 +510,54 @@ public class SalesforceConnectorConnectionManager implements Capabilities, Conne
             }
         } else {
             result = new DefaultTestResult(TestResult.Status.FAILURE, exception.getMessage(), TestResult.FailureType.UNSPECIFIED, exception);
+        }
+        return result;
+    }
+
+    public List<MetaDataKey> getMetaDataKeys() {
+        SalesforceConnectorConnectionIdentifierAdapter connection = null;
+        List<MetaDataKey> result = null;
+        SalesforceConnectorConnectionKey key = getDefaultConnectionKey();
+        try {
+            connection = acquireConnection(key);
+            ConnectorMetaDataEnabled metaDataEnabled = connection;
+            result = metaDataEnabled.getMetaDataKeys();
+        } catch (Exception e) {
+            try {
+                destroyConnection(key, connection);
+            } catch (Exception ie) {
+            }
+        } finally {
+            if (connection!= null) {
+                try {
+                    releaseConnection(key, connection);
+                } catch (Exception ie) {
+                }
+            }
+        }
+        return result;
+    }
+
+    public MetaData getMetaData(MetaDataKey key) {
+        SalesforceConnectorConnectionIdentifierAdapter connection = null;
+        MetaData result = null;
+        SalesforceConnectorConnectionKey connectionKey = getDefaultConnectionKey();
+        try {
+            connection = acquireConnection(connectionKey);
+            ConnectorMetaDataEnabled metaDataEnabled = connection;
+            result = metaDataEnabled.getMetaData(key);
+        } catch (Exception e) {
+            try {
+                destroyConnection(connectionKey, connection);
+            } catch (Exception ie) {
+            }
+        } finally {
+            if (connection!= null) {
+                try {
+                    releaseConnection(connectionKey, connection);
+                } catch (Exception ie) {
+                }
+            }
         }
         return result;
     }

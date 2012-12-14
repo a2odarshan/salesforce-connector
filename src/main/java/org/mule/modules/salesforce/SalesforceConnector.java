@@ -22,6 +22,7 @@ import org.mule.api.ConnectionExceptionCode;
 import org.mule.api.annotations.Connect;
 import org.mule.api.annotations.ConnectionIdentifier;
 import org.mule.api.annotations.Disconnect;
+import org.mule.api.annotations.MetaDataEnabled;
 import org.mule.api.annotations.ValidateConnection;
 import org.mule.api.annotations.display.Password;
 import org.mule.api.annotations.display.Placement;
@@ -48,7 +49,7 @@ import java.net.URL;
  *
  * @author MuleSoft, Inc.
  */
-@org.mule.api.annotations.Connector(name = "sfdc", schemaVersion = "5.0", friendlyName = "Salesforce", minMuleVersion = "3.3")
+@org.mule.api.annotations.Connector(name = "sfdc", schemaVersion = "5.0", friendlyName = "Salesforce", minMuleVersion = "3.3", metaDataEnabled = MetaDataEnabled.ENABLED)
 public class SalesforceConnector extends BaseSalesforceConnector {
     private static final Logger LOGGER = Logger.getLogger(SalesforceConnector.class);
 
