@@ -21,6 +21,7 @@ import org.mule.api.process.ProcessCallback;
 import org.mule.api.process.ProcessTemplate;
 import org.mule.api.processor.MessageProcessor;
 import org.mule.api.registry.RegistrationException;
+import org.mule.common.metadata.ConnectorMetaDataEnabled;
 import org.mule.common.metadata.DefaultListMetaDataModel;
 import org.mule.common.metadata.DefaultMetaData;
 import org.mule.common.metadata.DefaultMetaDataKey;
@@ -28,7 +29,6 @@ import org.mule.common.metadata.ListMetaDataModel;
 import org.mule.common.metadata.MetaData;
 import org.mule.common.metadata.MetaDataEnabled;
 import org.mule.common.metadata.MetaDataKey;
-import org.mule.common.metadata.MetaDataModel;
 import org.mule.config.i18n.CoreMessages;
 import org.mule.modules.salesforce.BaseSalesforceConnector;
 import org.mule.modules.salesforce.SalesforceConnector;
@@ -174,13 +174,13 @@ public class RetrieveMessageProcessor
 //    @OutputMetaDataKey(type=org.mule.api.annotations.MetaDataKey.PARAMETER, values="type")
 //    @OutputMetaDataModelDescription(modelDescription="LIST(MODEL)")
     @Override
-    public MetaData getOutputMetada(MetaData inputMetaData)
+    public MetaData getOutputMetaData(MetaData inputMetaData)
     {
         MetaDataKey metaDataKey = new DefaultMetaDataKey(type.toString(), null);
-        SalesforceConnector connector;
+        ConnectorMetaDataEnabled connector;
         try
         {
-            connector = (SalesforceConnector)findOrCreate(SalesforceConnector.class, true, null);
+            connector = (ConnectorMetaDataEnabled)findOrCreate(SalesforceConnector.class, true, null);
             MetaData metaData = connector.getMetaData(metaDataKey);
             ListMetaDataModel listMetaDataModel = new DefaultListMetaDataModel(metaData.getPayload());
             return new DefaultMetaData(listMetaDataModel);
