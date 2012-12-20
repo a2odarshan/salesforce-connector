@@ -29,7 +29,7 @@ import org.mule.common.metadata.DefaultMetaData;
 import org.mule.common.metadata.DefaultMetaDataKey;
 import org.mule.common.metadata.DefaultPojoMetaDataModel;
 import org.mule.common.metadata.MetaData;
-import org.mule.common.metadata.MetaDataEnabled;
+import org.mule.common.metadata.OperationMetaDataEnabled;
 import org.mule.common.metadata.MetaDataKey;
 import org.mule.common.metadata.MetaDataModel;
 import org.mule.config.i18n.CoreMessages;
@@ -44,7 +44,7 @@ import org.mule.modules.salesforce.SalesforceConnector;
 @Generated(value = "Mule DevKit Version 3.4-SNAPSHOT", date = "2012-12-13T03:33:54-03:00", comments = "Build connectorMetaDataEnabled.1437.f6cd6a5")
 public class CreateSingleMessageProcessor
     extends AbstractMessageProcessor<Object>
-    implements Disposable, Initialisable, Startable, Stoppable, MessageProcessor, MetaDataEnabled
+    implements Disposable, Initialisable, Startable, Stoppable, MessageProcessor, OperationMetaDataEnabled
 {
 
     protected Object type;
