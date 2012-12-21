@@ -943,6 +943,8 @@ public abstract class BaseSalesforceConnector implements MuleContextAware, Conne
     @InvalidateConnectionOn(exception = ConnectionException.class)
     @OAuthInvalidateAccessTokenOn(exception = ConnectionException.class)
     @Category(name = "Core Calls", description = "A set of calls that compromise the core of the API.")
+    @InputMetaData(modelLookup=ModelLookup.NONE)
+    @OutputMetaData(modelLookup=ModelLookup.IMPLICIT)
     public List<DeleteResult> delete(@Placement(group = "Ids to Delete") List<String> ids) throws Exception {
         return Arrays.asList(getConnection().delete(ids.toArray(new String[]{})));
     }

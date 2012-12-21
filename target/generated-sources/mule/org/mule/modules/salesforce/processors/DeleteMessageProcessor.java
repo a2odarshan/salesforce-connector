@@ -4,7 +4,10 @@ package org.mule.modules.salesforce.processors;
 import java.util.Arrays;
 import java.util.List;
 import javax.annotation.Generated;
+
+import com.sforce.soap.partner.DeleteResult;
 import com.sforce.ws.ConnectionException;
+
 import org.mule.api.MessagingException;
 import org.mule.api.MuleContext;
 import org.mule.api.MuleEvent;
@@ -19,6 +22,13 @@ import org.mule.api.process.ProcessAdapter;
 import org.mule.api.process.ProcessCallback;
 import org.mule.api.process.ProcessTemplate;
 import org.mule.api.processor.MessageProcessor;
+import org.mule.common.metadata.DefaultListMetaDataModel;
+import org.mule.common.metadata.DefaultMetaData;
+import org.mule.common.metadata.DefaultPojoMetaDataModel;
+import org.mule.common.metadata.ListMetaDataModel;
+import org.mule.common.metadata.MetaData;
+import org.mule.common.metadata.MetaDataModel;
+import org.mule.common.metadata.OperationMetaDataEnabled;
 import org.mule.config.i18n.CoreMessages;
 import org.mule.modules.salesforce.BaseSalesforceConnector;
 
@@ -30,7 +40,7 @@ import org.mule.modules.salesforce.BaseSalesforceConnector;
 @Generated(value = "Mule DevKit Version 3.4-SNAPSHOT", date = "2012-12-13T03:33:54-03:00", comments = "Build connectorMetaDataEnabled.1437.f6cd6a5")
 public class DeleteMessageProcessor
     extends AbstractMessageProcessor<Object>
-    implements Disposable, Initialisable, Startable, Stoppable, MessageProcessor
+    implements Disposable, Initialisable, Startable, Stoppable, MessageProcessor, OperationMetaDataEnabled
 {
 
     protected Object ids;
@@ -128,6 +138,20 @@ public class DeleteMessageProcessor
         } catch (Exception e) {
             throw new MessagingException(CoreMessages.failedToInvoke("delete"), event, e);
         }
+    }
+
+    @Override
+    public MetaData getInputMetaData()
+    {
+        return null;
+    }
+
+    @Override
+    public MetaData getOutputMetaData(MetaData inputMetaData)
+    {
+        MetaDataModel model = new DefaultPojoMetaDataModel(DeleteResult.class);
+        ListMetaDataModel listModel = new DefaultListMetaDataModel(model);
+        return new DefaultMetaData(listModel);
     }
 
 }
