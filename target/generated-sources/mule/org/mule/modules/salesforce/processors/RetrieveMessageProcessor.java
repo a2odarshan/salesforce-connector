@@ -21,6 +21,8 @@ import org.mule.api.process.ProcessCallback;
 import org.mule.api.process.ProcessTemplate;
 import org.mule.api.processor.MessageProcessor;
 import org.mule.api.registry.RegistrationException;
+import org.mule.common.DefaultResult;
+import org.mule.common.Result;
 import org.mule.common.metadata.ConnectorMetaDataEnabled;
 import org.mule.common.metadata.DefaultListMetaDataModel;
 import org.mule.common.metadata.DefaultMetaData;
@@ -166,24 +168,29 @@ public class RetrieveMessageProcessor
     }
 
     @Override
-    public MetaData getInputMetaData()
+    public Result<MetaData> getInputMetaData()
     {
-        return null;
+        return new DefaultResult<MetaData>(null);
     }
 
 //    @OutputMetaDataKey(type=org.mule.api.annotations.MetaDataKey.PARAMETER, values="type")
 //    @OutputMetaDataModelDescription(modelDescription="LIST(MODEL)")
     @Override
-    public MetaData getOutputMetaData(MetaData inputMetaData)
+    public Result<MetaData> getOutputMetaData(MetaData inputMetaData)
     {
+        Result<MetaData> result = null;
         MetaDataKey metaDataKey = new DefaultMetaDataKey(type.toString(), null);
         ConnectorMetaDataEnabled connector;
         try
         {
             connector = (ConnectorMetaDataEnabled)findOrCreate(SalesforceConnector.class, true, null);
-            MetaData metaData = connector.getMetaData(metaDataKey);
-            ListMetaDataModel listMetaDataModel = new DefaultListMetaDataModel(metaData.getPayload());
-            return new DefaultMetaData(listMetaDataModel);
+            result = connector.getMetaData(metaDataKey);
+            if (Result.Status.SUCCESS.equals(result.getStatus()))
+            {
+                MetaData metaData = result.get();
+                ListMetaDataModel listMetaDataModel = new DefaultListMetaDataModel(metaData.getPayload());
+                result = new DefaultResult<MetaData>(new DefaultMetaData(listMetaDataModel));
+            }
         }
         catch (ConfigurationException e)
         {
@@ -201,7 +208,7 @@ public class RetrieveMessageProcessor
         {
             e.printStackTrace();
         }
-        return null;
+        return result;
     }
 
 }

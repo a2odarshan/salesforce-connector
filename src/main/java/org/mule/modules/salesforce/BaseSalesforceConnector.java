@@ -40,6 +40,7 @@ import org.mule.api.registry.Registry;
 import org.mule.api.store.ObjectStore;
 import org.mule.api.store.ObjectStoreException;
 import org.mule.api.store.ObjectStoreManager;
+import org.mule.common.DefaultResult;
 import org.mule.common.metadata.ConnectorMetaDataEnabled;
 import org.mule.common.metadata.DefaultMapMetaDataModel;
 import org.mule.common.metadata.DefaultMetaData;
@@ -1489,7 +1490,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware, Conne
     }
 
     @Override
-    public List<MetaDataKey> getMetaDataKeys() {
+    public org.mule.common.Result<List<MetaDataKey>> getMetaDataKeys() {
         long start = System.currentTimeMillis();
         
         List<MetaDataKey> keys = new ArrayList<MetaDataKey>();
@@ -1500,8 +1501,8 @@ public abstract class BaseSalesforceConnector implements MuleContextAware, Conne
         }
         catch (Exception e)
         {
-            //TODO: handle exception
-            e.printStackTrace();
+            return new DefaultResult(null, org.mule.common.Result.Status.FAILURE, "Failed to get list of possible types", 
+                org.mule.common.Result.FailureType.UNSPECIFIED, e);
         }
         if (describeGlobal != null)
         {
@@ -1515,11 +1516,11 @@ public abstract class BaseSalesforceConnector implements MuleContextAware, Conne
         long stop = System.currentTimeMillis();
         System.out.println("Time to get keys: " + Long.toString(stop-start) + "ms");
         
-        return keys;
+        return new DefaultResult<List<MetaDataKey>>(keys, org.mule.common.Result.Status.SUCCESS);
     }
     
     @Override
-    public MetaData getMetaData(MetaDataKey key)
+    public org.mule.common.Result<MetaData> getMetaData(MetaDataKey key)
     {
         DescribeSObjectResult describeSObject = null;
         try
@@ -1528,8 +1529,8 @@ public abstract class BaseSalesforceConnector implements MuleContextAware, Conne
         }
         catch (Exception e)
         {
-            //TODO: handle exception
-            e.printStackTrace();
+            return new DefaultResult(null, org.mule.common.Result.Status.FAILURE, "Failed to get structure info for " + key.getId(), 
+                org.mule.common.Result.FailureType.UNSPECIFIED, e);
         }
         
         MetaData metaData = null;
@@ -1547,7 +1548,7 @@ public abstract class BaseSalesforceConnector implements MuleContextAware, Conne
             MetaDataModel model = new DefaultMapMetaDataModel<String>(stringMdm, map);
             metaData = new DefaultMetaData(model);
         }
-        return metaData;
+        return new DefaultResult<MetaData>(metaData, org.mule.common.Result.Status.SUCCESS);
     }
     
     private static final Set<String> parentNames = Collections.singleton("sObject");

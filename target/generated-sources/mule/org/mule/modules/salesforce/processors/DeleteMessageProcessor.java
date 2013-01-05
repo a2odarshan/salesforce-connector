@@ -22,6 +22,8 @@ import org.mule.api.process.ProcessAdapter;
 import org.mule.api.process.ProcessCallback;
 import org.mule.api.process.ProcessTemplate;
 import org.mule.api.processor.MessageProcessor;
+import org.mule.common.DefaultResult;
+import org.mule.common.Result;
 import org.mule.common.metadata.DefaultListMetaDataModel;
 import org.mule.common.metadata.DefaultMetaData;
 import org.mule.common.metadata.DefaultPojoMetaDataModel;
@@ -141,17 +143,17 @@ public class DeleteMessageProcessor
     }
 
     @Override
-    public MetaData getInputMetaData()
+    public Result<MetaData> getInputMetaData()
     {
-        return null;
+        return new DefaultResult<MetaData>(null);
     }
 
     @Override
-    public MetaData getOutputMetaData(MetaData inputMetaData)
+    public Result<MetaData> getOutputMetaData(MetaData inputMetaData)
     {
         MetaDataModel model = new DefaultPojoMetaDataModel(DeleteResult.class);
         ListMetaDataModel listModel = new DefaultListMetaDataModel(model);
-        return new DefaultMetaData(listModel);
+        return new DefaultResult<MetaData>(new DefaultMetaData(listModel));
     }
 
 }

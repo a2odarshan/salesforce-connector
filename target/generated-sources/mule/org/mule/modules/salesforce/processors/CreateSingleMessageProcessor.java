@@ -24,6 +24,8 @@ import org.mule.api.process.ProcessCallback;
 import org.mule.api.process.ProcessTemplate;
 import org.mule.api.processor.MessageProcessor;
 import org.mule.api.registry.RegistrationException;
+import org.mule.common.DefaultResult;
+import org.mule.common.Result;
 import org.mule.common.metadata.ConnectorMetaDataEnabled;
 import org.mule.common.metadata.DefaultMetaData;
 import org.mule.common.metadata.DefaultMetaDataKey;
@@ -159,7 +161,7 @@ public class CreateSingleMessageProcessor
 //    @InputMetaDataKey(type=org.mule.api.annotations.MetaDataKey.PARAMETER, values="type")
 //    @InputMetaDataModelDescription(modelDescription="MODEL")
     @Override
-    public MetaData getInputMetaData()
+    public Result<MetaData> getInputMetaData()
     {
         MetaDataKey metaDataKey = new DefaultMetaDataKey(type.toString(), null);
         ConnectorMetaDataEnabled connector;
@@ -189,10 +191,10 @@ public class CreateSingleMessageProcessor
 
 //    @OutputMetaDataModelDescription(modelDescription="POJO")
     @Override
-    public MetaData getOutputMetaData(MetaData inputMetaData)
+    public Result<MetaData> getOutputMetaData(MetaData inputMetaData)
     {
         MetaDataModel model = new DefaultPojoMetaDataModel(SaveResult.class);
-        return new DefaultMetaData(model);
+        return new DefaultResult<MetaData>(new DefaultMetaData(model));
     }
 
 }

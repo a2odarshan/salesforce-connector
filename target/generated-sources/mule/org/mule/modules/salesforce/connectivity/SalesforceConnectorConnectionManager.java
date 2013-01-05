@@ -19,7 +19,9 @@ import org.mule.api.process.ProcessAdapter;
 import org.mule.api.process.ProcessTemplate;
 import org.mule.api.retry.RetryPolicyTemplate;
 import org.mule.api.store.ObjectStore;
+import org.mule.common.DefaultResult;
 import org.mule.common.DefaultTestResult;
+import org.mule.common.Result;
 import org.mule.common.TestResult;
 import org.mule.common.Testable;
 import org.mule.common.metadata.ConnectorMetaDataEnabled;
@@ -514,9 +516,9 @@ public class SalesforceConnectorConnectionManager implements Capabilities, Conne
         return result;
     }
 
-    public List<MetaDataKey> getMetaDataKeys() {
+    public Result<List<MetaDataKey>> getMetaDataKeys() {
         SalesforceConnectorConnectionIdentifierAdapter connection = null;
-        List<MetaDataKey> result = null;
+        Result<List<MetaDataKey>> result = null;
         SalesforceConnectorConnectionKey key = getDefaultConnectionKey();
         try {
             connection = acquireConnection(key);
@@ -527,6 +529,8 @@ public class SalesforceConnectorConnectionManager implements Capabilities, Conne
                 destroyConnection(key, connection);
             } catch (Exception ie) {
             }
+            result = new DefaultResult<List<MetaDataKey>>(null, 
+                            Result.Status.FAILURE, "Failed to get typ list", Result.FailureType.UNSPECIFIED, e);
         } finally {
             if (connection!= null) {
                 try {
@@ -538,9 +542,9 @@ public class SalesforceConnectorConnectionManager implements Capabilities, Conne
         return result;
     }
 
-    public MetaData getMetaData(MetaDataKey key) {
+    public Result<MetaData> getMetaData(MetaDataKey key) {
         SalesforceConnectorConnectionIdentifierAdapter connection = null;
-        MetaData result = null;
+        Result<MetaData> result = null;
         SalesforceConnectorConnectionKey connectionKey = getDefaultConnectionKey();
         try {
             connection = acquireConnection(connectionKey);
@@ -551,6 +555,8 @@ public class SalesforceConnectorConnectionManager implements Capabilities, Conne
                 destroyConnection(connectionKey, connection);
             } catch (Exception ie) {
             }
+            result = new DefaultResult<MetaData>(null, Result.Status.FAILURE, 
+                            "Failed to get typ list", Result.FailureType.UNSPECIFIED, e);
         } finally {
             if (connection!= null) {
                 try {
